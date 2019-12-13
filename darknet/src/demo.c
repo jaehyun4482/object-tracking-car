@@ -15,7 +15,7 @@
 #include <pthread.h>
 #define  FIFO_FROM_YOLO   "/tmp/fifo"
 //#define  FIFO_FROM_YOLO   "/tmp/from_yolo_fifo"
-#define  FIFO_TO_YOLO     "/tmp/to_yolo_fifo"
+//#define  FIFO_TO_YOLO     "/tmp/to_yolo_fifo"
 #define  FIFO_FILE        "/tmp/VL53L0X"
 #define  BUFF_SIZE   1024
 
@@ -221,7 +221,6 @@ void *detect_in_thread(void *ptr)
                 printf("%c\n", buff_a[0]);
             } else if(buff_b[0] == '2') {
                 buff_a[0] = 'x';
-                write( fd_from_yolo, buff_a, 1 );
                 printf("%c\n", buff_a[0]);
             }/*
             buff_a[0] = 'i';
@@ -346,15 +345,16 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
 
     //SECTION code is added -->
     pthread_t p_thread[2];
-    int thr_id;
     int a = 1;
-
+#if 0
+    int thr_id;
     thr_id = pthread_create(&p_thread[0], NULL, t_function_a, (void *)&a);
     if (thr_id < 0)
     {
         perror("thread create error : ");
         exit(0);
     }
+#endif
     // from wifi thread
     if ( -1 == ( fd_from_yolo = open( FIFO_FROM_YOLO, O_RDWR, O_CREAT)))
     {
@@ -369,7 +369,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
             exit( 1);
         }
     }
-    // to wifi thread
+#if 0    // to wifi thread
     if ( -1 == ( fd_to_yolo = open( FIFO_TO_YOLO, O_RDWR)))
     {
         if ( -1 == mkfifo( FIFO_TO_YOLO, 0666))
@@ -383,7 +383,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
             exit( 1);
         }
     }
-    // from VL53L0X
+#endif    // from VL53L0X
     if ( -1 == ( from_vl53l0x = open( FIFO_FILE, O_RDWR, O_CREAT)))
     {
         if ( -1 == mkfifo( FIFO_FILE, 0666))
