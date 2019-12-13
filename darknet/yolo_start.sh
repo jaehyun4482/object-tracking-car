@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ ! -e yolov3-tiny.weights ];then
+    wget https://pjreddie.com/media/files/yolov3-tiny.weights
+fi
+
 if [ ! -e darknet ];then
     make -j6
 fi
