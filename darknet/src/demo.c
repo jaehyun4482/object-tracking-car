@@ -9,12 +9,13 @@
 #include "demo.h"
 #include <sys/time.h>
 
+#include<string.h>    //strlen
+
 //SECTION code is added -->
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <pthread.h>
-#define  FIFO_FROM_YOLO   "/tmp/fifo"
-//#define  FIFO_FROM_YOLO   "/tmp/from_yolo_fifo"
+#define  FIFO_FROM_YOLO   "/tmp/from_yolo_fifo"
 #define  FIFO_TO_YOLO     "/tmp/to_yolo_fifo"
 #define  FIFO_FILE        "/tmp/VL53L0X"
 #define  BUFF_SIZE   1024
@@ -152,9 +153,9 @@ void *detect_in_thread(void *ptr)
      */
 
     if (nms > 0) do_nms_obj(dets, nboxes, l.classes, nms);
-/*
+
     printf("\033[2J");
-    printf("\033[1;1H");*/
+    printf("\033[1;1H");
     printf("\nFPS:%.1f\n",fps);
     printf("Objects:\n\n");
     image display = buff[(buff_index+2) % 3];
@@ -166,44 +167,42 @@ void *detect_in_thread(void *ptr)
             distance_val = target_wval*target_hval;
             printf("[demo.c] target class(%d), xval = %f, wval = %f, hval = %f distance_val = %f \n", target_class_a, target_xval, target_wval, target_hval, distance_val);
             
-            if(target_xval > 0.55){
-                buff_a[0] = 'd';
+            if(target_xval > 0.5){
+                buff_a[0] = 'b';
                 write( fd_from_yolo, buff_a, 1 );
                 printf("%c\n", buff_a[0]);
-            }else if(target_xval < 0.35){
+            }else if(target_xval < 0.4){
                 buff_a[0] = 'a';
                 write( fd_from_yolo, buff_a, 1 );
                 printf("%c\n", buff_a[0]);
             }else{
                 read( from_vl53l0x, buff_b, BUFF_SIZE);
-                buff_a[0] = 'c';
-                write( fd_from_yolo, buff_a, 1 );
                 if(buff_b[0] == '0') {
-                    buff_a[0] = 's';
+                    buff_a[0] = 'd';
                     write( fd_from_yolo, buff_a, 1 );
                     printf("%c\n", buff_a[0]);
                 } else if(buff_b[0] == '1') {
-                    buff_a[0] = 's';
+                    buff_a[0] = 'd';
                     write( fd_from_yolo, buff_a, 1 );
                     printf("%c\n", buff_a[0]);
                 } else if(buff_b[0] == '2') {
-                    buff_a[0] = 's';
+                    buff_a[0] = 'i';
                     write( fd_from_yolo, buff_a, 1 );
                     printf("%c\n", buff_a[0]);
                 } else if(buff_b[0] == '3') {
-                    buff_a[0] = 'x';
+                    buff_a[0] = 'i';
                     write( fd_from_yolo, buff_a, 1 );
                     printf("%c\n", buff_a[0]);
                 } else if(buff_b[0] == '4') {
-                    buff_a[0] = 'x';
+                    buff_a[0] = 'i';
                     write( fd_from_yolo, buff_a, 1 );
                     printf("%c\n", buff_a[0]);
                 } else if(buff_b[0] == '5') {
-                    buff_a[0] = 'x';
+                    buff_a[0] = 'c';
                     write( fd_from_yolo, buff_a, 1 );
                     printf("%c\n", buff_a[0]);
                 } else if(buff_b[0] == '6') {
-                    buff_a[0] = 'r';
+                    buff_a[0] = 'c';
                     write( fd_from_yolo, buff_a, 1 );
                     printf("%c\n", buff_a[0]);
                 }
@@ -212,15 +211,15 @@ void *detect_in_thread(void *ptr)
         }else/* if(buff_a[0] == 'a' || buff_a[0] == 'b')*/{
             read( from_vl53l0x, buff_b, BUFF_SIZE);
             if(buff_b[0] == '0') {
-                buff_a[0] = 's';
+                buff_a[0] = 'd';
                 write( fd_from_yolo, buff_a, 1 );
                 printf("%c\n", buff_a[0]);
             } else if(buff_b[0] == '1') {
-                buff_a[0] = 's';
+                buff_a[0] = 'd';
                 write( fd_from_yolo, buff_a, 1 );
                 printf("%c\n", buff_a[0]);
             } else if(buff_b[0] == '2') {
-                buff_a[0] = 'x';
+                buff_a[0] = 'i';
                 write( fd_from_yolo, buff_a, 1 );
                 printf("%c\n", buff_a[0]);
             }/*
@@ -297,6 +296,7 @@ void *t_function_a(void *data)
     {
         while(read(fd_to_yolo, buff_a, BUFF_SIZE) != 0)
         {
+#if 0
             if(buff_a[0] == 'A')                     // apple  39 - bottle
             {
                 target_class_a = 39;
@@ -327,6 +327,93 @@ void *t_function_a(void *data)
                 printf("class %d\n", target_class_a);
                 buff_a[0]=0;
             }
+
+#endif
+
+
+            target_class_a = buff_a[0];
+            printf("class : %d\n", target_class_a);
+
+//person         0
+//bicycle        1
+//car            2
+//motorbike      3
+//aeroplane      4
+//bus            5
+//train          6
+//truck          7
+//boat           8
+//traffic light  9
+//fire hydrant   10
+//stop sign      11
+//parking meter  12
+//bench          13
+//bird           14 
+//cat            15
+//dog            16
+//horse          17
+//sheep          18
+//cow            19
+//elephant       20
+//bear           21
+//zebra          22
+//giraffe        23
+//backpack       24
+//umbrella       25
+//handbag        26
+//tie            27
+//suitcase       28
+//frisbee        29
+//skis           30
+//snowboard      31
+//sports ball    32
+//kite           33
+//baseball bat   34
+//baseball glove 35
+//skateboard     36
+//surfboard      37
+//tennis racket  38
+//bottle         39
+//wine glass     40
+//cup            41
+//fork           42
+//knife          43
+//spoon          44
+//bowl           45
+//banana         46
+//apple          47
+//sandwich       48
+//orange         49
+//broccoli       50
+//carrot         51
+//hot dog        52
+//pizza          53
+//donut          54
+//cake           55
+//chair          56
+//sofa           57
+//pottedplant    58
+//bed            59
+//diningtable    60
+//toilet         61
+//tvmonitor      62
+//laptop         63
+//mouse          64
+//remote         65
+//keyboard       66
+//cell phone     67
+//microwave      68
+//oven           69
+//toaster        70
+//sink           71
+//refrigerator   72
+//book           73
+//clock          74
+//vase           75
+//scissors       76
+//teddy bear     77
+//hair drier     78
+//tooth
         }
     }
 }
