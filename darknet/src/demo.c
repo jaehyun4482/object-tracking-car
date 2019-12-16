@@ -162,23 +162,39 @@ void *detect_in_thread(void *ptr)
     #if 0
         draw_detections(display, dets, nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes);
     #else
-        if(draw_detections(display, dets, nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes, target_class_a, &target_xval, &target_wval, &target_hval)) {
-            distance_val = target_wval*target_hval;
-            printf("[demo.c] target class(%d), xval = %f, wval = %f, hval = %f distance_val = %f \n", target_class_a, target_xval, target_wval, target_hval, distance_val);
-            
-            if(target_xval > 0.55){
+    if(draw_detections(display, dets, nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes, target_class_a, &target_xval, &target_wval, &target_hval)) {
+        distance_val = target_wval*target_hval;
+        printf("[demo.c] target class(%d), xval = %f, wval = %f, hval = %f distance_val = %f \n", target_class_a, target_xval, target_wval, target_hval, distance_val);
+        
+        if(target_xval < 0.2){
+            buff_a[0] = 'a';
+	        buff_a[1] = '2';
+	        write( fd_from_yolo, buff_a, 2 );
+                printf("%s\n", buff_a);
+            }
+	    else if(0.35 > target_xval && target_xval > 0.2){
+	        buff_a[0] = 'a';
+	        buff_a[1] = '1';
+	        write( fd_from_yolo, buff_a, 2 );
+	        printf("%s\n", buff_a);
+	    }
+            else if(0.7 > target_xval && target_xval > 0.55){
                 buff_a[0] = 'd';
-                write( fd_from_yolo, buff_a, 1 );
-                printf("%c\n", buff_a[0]);
-            }else if(target_xval < 0.35){
-                buff_a[0] = 'a';
-                write( fd_from_yolo, buff_a, 1 );
-                printf("%c\n", buff_a[0]);
-            }else{
+                buff_a[1] = '1';
+                write( fd_from_yolo, buff_a, 2 );
+                printf("%s\n", buff_a);
+	    }
+	    else if(target_xval > 0.7){
+	        buff_a[0] = 'd';
+	        buff_a[1] = '2';
+	        write( fd_from_yolo, buff_a, 2 );
+	        printf("%s\n", buff_a);
+	    }
+            else{
                 read( from_vl53l0x, buff_b, BUFF_SIZE);
                 buff_a[0] = 'c';
                 write( fd_from_yolo, buff_a, 1 );
-                if(buff_b[0] == '0') {
+               /* if(buff_b[0] == '0') {
                     buff_a[0] = 's';
                     write( fd_from_yolo, buff_a, 1 );
                     printf("%c\n", buff_a[0]);
@@ -206,9 +222,37 @@ void *detect_in_thread(void *ptr)
                     buff_a[0] = 'r';
                     write( fd_from_yolo, buff_a, 1 );
                     printf("%c\n", buff_a[0]);
+                }*/
+                switch(buff_b[0]) {
+                    case '0':
+                    case '1':
+                    case '2':
+                        buff_a[0] = 's';
+                        write( fd_from_yolo, buff_a, 1 );
+                        printf("%c\n", buff_a[0]);
+                        break;
+                    case '3':
+                    case '4':
+                        buff_a[0] = 'x';
+                        write( fd_from_yolo, buff_a, 1 );
+                        printf("%c\n", buff_a[0]);
+                        break;
+                    case '5':
+                        buff_a[0] = 'w';
+                        buff_a[1] = '2';
+                        write( fd_from_yolo, buff_a, 1 );
+                        printf("%s\n", buff_a);
+                        break;
+                    case '6':
+                        buff_a[0] = 'w';
+                        buff_a[1] = '3';
+                        write( fd_from_yolo, buff_a, 1 );
+                        printf("%s\n", buff_a);
+                        break;
+                    default:
+                        break;
                 }
             }
-            
         }else/* if(buff_a[0] == 'a' || buff_a[0] == 'b')*/{
             read( from_vl53l0x, buff_b, BUFF_SIZE);
             if(buff_b[0] == '0') {
@@ -221,6 +265,7 @@ void *detect_in_thread(void *ptr)
                 printf("%c\n", buff_a[0]);
             } else if(buff_b[0] == '2') {
                 buff_a[0] = 'x';
+                write( fd_from_yolo, buff_a, 1 );
                 printf("%c\n", buff_a[0]);
             }/*
             buff_a[0] = 'i';
