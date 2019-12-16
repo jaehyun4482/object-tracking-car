@@ -7,6 +7,7 @@
 #include "box.h"
 #include "image.h"
 #include "demo.h"
+#include <string.h>
 #include <sys/time.h>
 
 //SECTION code is added -->
@@ -15,7 +16,7 @@
 #include <pthread.h>
 #define  FIFO_FROM_YOLO   "/tmp/fifo"
 //#define  FIFO_FROM_YOLO   "/tmp/from_yolo_fifo"
-//#define  FIFO_TO_YOLO     "/tmp/to_yolo_fifo"
+#define  FIFO_TO_YOLO     "/tmp/to_yolo_fifo"
 #define  FIFO_FILE        "/tmp/VL53L0X"
 #define  BUFF_SIZE   1024
 
@@ -165,16 +166,32 @@ void *detect_in_thread(void *ptr)
         if(draw_detections(display, dets, nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes, target_class_a, &target_xval, &target_wval, &target_hval)) {
             distance_val = target_wval*target_hval;
             printf("[demo.c] target class(%d), xval = %f, wval = %f, hval = %f distance_val = %f \n", target_class_a, target_xval, target_wval, target_hval, distance_val);
-            
-            if(target_xval > 0.55){
+            printf("%f\n", target_xval);
+	    if(target_xval < 0.2){
+	        buff_a[0] = 'a';
+	        buff_a[1] = '2';
+	        write( fd_from_yolo, buff_a, 2 );
+                printf("%s\n", buff_a);
+            }
+	    else if(0.35 > target_xval && target_xval > 0.2){
+	        buff_a[0] = 'a';
+	        buff_a[1] = '1';
+	        write( fd_from_yolo, buff_a, 2 );
+	        printf("%s\n", buff_a);
+	    }
+            else if(0.7 > target_xval && target_xval > 0.55){
                 buff_a[0] = 'd';
-                write( fd_from_yolo, buff_a, 1 );
-                printf("%c\n", buff_a[0]);
-            }else if(target_xval < 0.35){
-                buff_a[0] = 'a';
-                write( fd_from_yolo, buff_a, 1 );
-                printf("%c\n", buff_a[0]);
-            }else{
+                buff_a[1] = '1';
+                write( fd_from_yolo, buff_a, 2 );
+                printf("%s\n", buff_a);
+	    }
+	    else if(target_xval > 0.7){
+	        buff_a[0] = 'd';
+	        buff_a[1] = '2';
+	        write( fd_from_yolo, buff_a, 2 );
+	        printf("%s\n", buff_a);
+	    }
+            else{
                 read( from_vl53l0x, buff_b, BUFF_SIZE);
                 buff_a[0] = 'c';
                 write( fd_from_yolo, buff_a, 1 );
@@ -221,6 +238,7 @@ void *detect_in_thread(void *ptr)
                 printf("%c\n", buff_a[0]);
             } else if(buff_b[0] == '2') {
                 buff_a[0] = 'x';
+                write( fd_from_yolo, buff_a, 1 );
                 printf("%c\n", buff_a[0]);
             }/*
             buff_a[0] = 'i';
@@ -345,16 +363,15 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
 
     //SECTION code is added -->
     pthread_t p_thread[2];
-    int a = 1;
-#if 0
     int thr_id;
+    int a = 1;
+
     thr_id = pthread_create(&p_thread[0], NULL, t_function_a, (void *)&a);
     if (thr_id < 0)
     {
         perror("thread create error : ");
         exit(0);
     }
-#endif
     // from wifi thread
     if ( -1 == ( fd_from_yolo = open( FIFO_FROM_YOLO, O_RDWR, O_CREAT)))
     {
@@ -369,7 +386,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
             exit( 1);
         }
     }
-#if 0    // to wifi thread
+    // to wifi thread
     if ( -1 == ( fd_to_yolo = open( FIFO_TO_YOLO, O_RDWR)))
     {
         if ( -1 == mkfifo( FIFO_TO_YOLO, 0666))
@@ -383,7 +400,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
             exit( 1);
         }
     }
-#endif    // from VL53L0X
+    // from VL53L0X
     if ( -1 == ( from_vl53l0x = open( FIFO_FILE, O_RDWR, O_CREAT)))
     {
         if ( -1 == mkfifo( FIFO_FILE, 0666))
