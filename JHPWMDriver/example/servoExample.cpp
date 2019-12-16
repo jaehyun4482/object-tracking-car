@@ -82,15 +82,100 @@ int main() {
 
         while (true) {
 	    read(fd, buff, BUFF_SIZE);
-
-            switch (buff[0]) {
-            case 'd':
+	    if(!strncmp(buff, "d1", 2))
+	    {
+                pca9685->setPWM(0,0,415); //right
+                pca9685->setPWM(1,0,420); //low go
+                z = 1;
+                printf("right_1\n");
+            }  
+	    if(!strncmp(buff, "d2", 2))
+	    {
+                pca9685->setPWM(0,0,460); //right
+                pca9685->setPWM(1,0,420); //low go
+                z = 1;
+                printf("right_2\n");
+            }  
+	    if(!strncmp(buff, "a1", 2))
+	    {
+                pca9685->setPWM(0,0,300); //right
+                pca9685->setPWM(1,0,420); //low go
+                z = 1;
+                printf("left_1\n");
+            }
+	    if(!strncmp(buff, "a2", 2))
+	    {
+                pca9685->setPWM(0,0,230); //right
+                pca9685->setPWM(1,0,420); //low go
+                z = 1;
+                printf("left_2\n");
+            }
+	    if(!strncmp(buff, "c", 1))
+	    {
+                pca9685->setPWM(0,0,370); //right
+                z = 0;
+                printf("center\n");
+            } 
+	    if(!strncmp(buff, "c", 1))
+	    {
+                if(z == 0) {
+                    pca9685->setPWM(1,0,480); //high go
+                    printf("mid go\n");
+                }
+            }
+	    if(!strncmp(buff, "w3", 2))
+	    {
+                if(z == 0) {
+                    pca9685->setPWM(1,0,480); //high go
+                    printf("high go\n");
+                }
+            }
+	    if(!strncmp(buff, "w2", 2))
+	    {
+                if(z == 0) {
+                    pca9685->setPWM(1,0,440); //mid go
+                    printf("mid go\n");
+                }
+            }
+	    if(!strncmp(buff, "w1", 2))
+	    {
+                if(z == 0) {
+                    pca9685->setPWM(1,0,410); //low go
+                    printf("low go\n");
+                }
+            }
+	    if(!strncmp(buff, "s", 2))
+	    {
+                pca9685->setPWM(1,0,340); //back
+                printf("back\n");
+            }
+	    if(!strncmp(buff, "x", 2))
+	    {
+                pca9685->setPWM(1,0,370); //stop
+                pca9685->setPWM(0,0,370); //center
+                printf("stop\n");
+            } 
+   
+            /*switch (buff) {
+            case "d1":
+                pca9685->setPWM(0,0,415); //right
+                pca9685->setPWM(1,0,420); //low go
+                z = 1;
+                printf("right\n");
+                break;
+            case "d2":
                 pca9685->setPWM(0,0,460); //right
                 pca9685->setPWM(1,0,420); //low go
                 z = 1;
                 printf("right\n");
                 break;
-            case 'a':
+            case "a1":
+                pca9685->setPWM(0,0,300); //left
+                pca9685->setPWM(1,0,420); //low go
+                printf("left\n");
+                z = 1;
+                break;
+            case "a2":
                 pca9685->setPWM(0,0,230); //left
                 pca9685->setPWM(1,0,420); //low go
                 printf("left\n");
@@ -101,7 +186,7 @@ int main() {
                 printf("center\n");
                 z = 0;
                 break;
-            case 'r':
+            case "w3":
                 if(z == 0) {
                     pca9685->setPWM(1,0,480); //high go
                     printf("mid go\n");
@@ -109,13 +194,13 @@ int main() {
                 printf("high go\n");
                 if(buff[0] == 'c')
                 break;                
-            case 'w':
+            case "w2":
                 if(z == 0) {
                     pca9685->setPWM(1,0,440); //mid go
                     printf("mid go\n");
                 }
                 break;
-            case 'e':
+            case "w1":
                 pca9685->setPWM(1,0,410); //low go
                 printf("low go\n");
                 break;
@@ -138,7 +223,7 @@ int main() {
                 break;
             default:
                 break;
-            }
+            }*/
         }
     }
     pca9685->closePCA9685();
@@ -147,4 +232,3 @@ int main() {
 //pca9685->setPWM(0,0,438); //right
 //pca9685->setPWM(0,0,324); //center
 //pca9685->setPWM(0,0,229); //left
-
