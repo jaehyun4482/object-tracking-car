@@ -125,9 +125,6 @@ void *detect_in_thread(void *ptr) {
 	printf("Objects:\n\n");
 	image display = buff[(buff_index + 2) % 3];
 	//SECTION code is added -->
-#if 0
-	draw_detections(display, dets, nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes);
-#else
 	if (draw_detections(display, dets, nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes, target_class_a, &target_xval, &target_wval, &target_hval)) {
 		distance_val = target_wval * target_hval;
 		printf("[demo.c] target class(%d), xval = %f, wval = %f, hval = %f distance_val = %f \n", target_class_a, target_xval, target_wval, target_hval, distance_val);
@@ -330,11 +327,11 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
 	demo_classes = classes;
 	demo_thresh = thresh;
 	demo_hier = hier;
-
+#if 0
 	//SECTION code is added -->
 	pthread_t p_thread[2];
 	int a = 1;
-#if 0
+
 	int thr_id;
 	thr_id = pthread_create(&p_thread[0], NULL, t_function_a, (void *)&a);
 	if (thr_id < 0) {
