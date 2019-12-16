@@ -137,12 +137,12 @@ int main() {
                     printf("low go\n");
                 }
             }
-	    if(!strncmp(buff, "s", 2))
+	    if(!strncmp(buff, "s", 1))
 	    {
                 pca9685->setPWM(1,0,340); //back
                 printf("back\n");
             }
-	    if(!strncmp(buff, "x", 2))
+	    if(!strncmp(buff, "x", 1))
 	    {
                 pca9685->setPWM(1,0,370); //stop
                 pca9685->setPWM(0,0,370); //center
