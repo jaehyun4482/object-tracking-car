@@ -84,31 +84,45 @@ int main() {
 	    read(fd, buff, BUFF_SIZE);
 	    if(!strncmp(buff, "d1", 2))
 	    {
-                pca9685->setPWM(0,0,415); //right
+                pca9685->setPWM(0,0,400); //right
                 pca9685->setPWM(1,0,420); //low go
                 z = 1;
                 printf("right_1\n");
-            }  
+            }
 	    if(!strncmp(buff, "d2", 2))
+	    {
+                pca9685->setPWM(0,0,430); //right
+                pca9685->setPWM(1,0,420); //low go
+                z = 1;
+                printf("right_2\n");
+            }              
+	    if(!strncmp(buff, "d3", 2))
 	    {
                 pca9685->setPWM(0,0,460); //right
                 pca9685->setPWM(1,0,420); //low go
                 z = 1;
-                printf("right_2\n");
+                printf("right_3\n");
             }  
 	    if(!strncmp(buff, "a1", 2))
 	    {
-                pca9685->setPWM(0,0,300); //left
+                pca9685->setPWM(0,0,330); //left
                 pca9685->setPWM(1,0,420); //low go
                 z = 1;
                 printf("left_1\n");
             }
 	    if(!strncmp(buff, "a2", 2))
 	    {
-                pca9685->setPWM(0,0,230); //left
+                pca9685->setPWM(0,0,280); //left
                 pca9685->setPWM(1,0,420); //low go
                 z = 1;
                 printf("left_2\n");
+            }            
+	    if(!strncmp(buff, "a3", 2))
+	    {
+                pca9685->setPWM(0,0,230); //left
+                pca9685->setPWM(1,0,420); //low go
+                z = 1;
+                printf("left_3\n");
             }
 	    if(!strncmp(buff, "c", 1))
 	    {
