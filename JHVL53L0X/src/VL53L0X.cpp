@@ -52,7 +52,7 @@ VL53L0X::VL53L0X(void)
     : address(ADDRESS_DEFAULT)
     , io_timeout(0) // no timeout
     , did_timeout(false)
-    , kI2CBus(8)
+    , kI2CBus(1)
 {
 }
 
