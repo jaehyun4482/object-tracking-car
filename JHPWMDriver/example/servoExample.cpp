@@ -98,31 +98,24 @@ int main() {
             }  
 	    if(!strncmp(buff, "a1", 2))
 	    {
-                pca9685->setPWM(0,0,300); //right
+                pca9685->setPWM(0,0,300); //left
                 pca9685->setPWM(1,0,420); //low go
                 z = 1;
                 printf("left_1\n");
             }
 	    if(!strncmp(buff, "a2", 2))
 	    {
-                pca9685->setPWM(0,0,230); //right
+                pca9685->setPWM(0,0,230); //left
                 pca9685->setPWM(1,0,420); //low go
                 z = 1;
                 printf("left_2\n");
             }
 	    if(!strncmp(buff, "c", 1))
 	    {
-                pca9685->setPWM(0,0,370); //right
+                pca9685->setPWM(0,0,370); //center
                 z = 0;
                 printf("center\n");
             } 
-	    if(!strncmp(buff, "c", 1))
-	    {
-                if(z == 0) {
-                    pca9685->setPWM(1,0,480); //high go
-                    printf("mid go\n");
-                }
-            }
 	    if(!strncmp(buff, "w3", 2))
 	    {
                 if(z == 0) {
