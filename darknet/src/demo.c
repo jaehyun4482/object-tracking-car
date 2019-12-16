@@ -166,27 +166,39 @@ void *detect_in_thread(void *ptr)
         distance_val = target_wval*target_hval;
         printf("[demo.c] target class(%d), xval = %f, wval = %f, hval = %f distance_val = %f \n", target_class_a, target_xval, target_wval, target_hval, distance_val);
         
-        if(target_xval < 0.2){
+        if(target_xval <= 0.2){
             buff_a[0] = 'a';
-	        buff_a[1] = '2';
+	        buff_a[1] = '3';
 	        write( fd_from_yolo, buff_a, 2 );
                 printf("%s\n", buff_a);
             }
-	    else if(0.35 > target_xval && target_xval > 0.2){
+	    else if(0.3 >= target_xval && target_xval > 0.2){
+	        buff_a[0] = 'a';
+	        buff_a[1] = '2';
+	        write( fd_from_yolo, buff_a, 2 );
+	        printf("%s\n", buff_a);
+	    }            
+	    else if(0.4 >= target_xval && target_xval > 0.3){
 	        buff_a[0] = 'a';
 	        buff_a[1] = '1';
 	        write( fd_from_yolo, buff_a, 2 );
 	        printf("%s\n", buff_a);
 	    }
-            else if(0.7 > target_xval && target_xval > 0.55){
-                buff_a[0] = 'd';
-                buff_a[1] = '1';
-                write( fd_from_yolo, buff_a, 2 );
-                printf("%s\n", buff_a);
+        else if(0.7 > target_xval && target_xval >= 0.6){
+            buff_a[0] = 'd';
+            buff_a[1] = '1';
+            write( fd_from_yolo, buff_a, 2 );
+            printf("%s\n", buff_a);
 	    }
-	    else if(target_xval > 0.7){
+        else if(0.8 > target_xval && target_xval >= 0.7){
+            buff_a[0] = 'd';
+            buff_a[1] = '2';
+            write( fd_from_yolo, buff_a, 2 );
+            printf("%s\n", buff_a);
+	    }	    
+	    else if(target_xval >= 0.8){
 	        buff_a[0] = 'd';
-	        buff_a[1] = '2';
+	        buff_a[1] = '3';
 	        write( fd_from_yolo, buff_a, 2 );
 	        printf("%s\n", buff_a);
 	    }
