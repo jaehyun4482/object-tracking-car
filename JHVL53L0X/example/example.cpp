@@ -154,7 +154,4 @@ int main() {
     }
     printf("\n\n") ;
     sensor->closeVL53L0X();
-}            } else if (distance < 600) {
-                printf("\nDistance: %5d mm ",distance);
-                buff[0] = '4';
-                write(from_VL53L0X, buff, 1 );
+}
