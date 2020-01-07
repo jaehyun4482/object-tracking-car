@@ -66,7 +66,7 @@ int main() {
             exit( 1);
         }
     }
-    while(getkey() != 27){
+/*    while(getkey() != 27){
         int distance = sensor->readRangeSingleMillimeters();
         if (sensor->timeoutOccurred()) {
             printf("Sensor timeout!\n");
@@ -102,7 +102,59 @@ int main() {
                 write(from_VL53L0X, buff, 1 );
             }
         }
+    }*/
+    while(getkey() != 27){
+        int distance = sensor->readRangeSingleMillimeters();
+        if (sensor->timeoutOccurred()) {
+            printf("Sensor timeout!\n");
+        } else {
+            // If distance > 2000, no return received; Don't print it
+            if (distance < 100) {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '0';
+                write(from_VL53L0X, buff, 1 );
+            } else if (distance < 150) {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '1';
+                write(from_VL53L0X, buff, 1 );
+            } else if (distance < 300) {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '2';
+                write(from_VL53L0X, buff, 1 );
+            } else if (distance < 450) {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '3';
+                write(from_VL53L0X, buff, 1 );
+            } else if (distance < 600) {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '4';
+                write(from_VL53L0X, buff, 1 );
+            } else if (distance < 750) {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '5';
+                write(from_VL53L0X, buff, 1 );
+            } else if (distance < 900) {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '6';
+                write(from_VL53L0X, buff, 1 );
+            } else if (distance < 1000) {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '7';
+                write(from_VL53L0X, buff, 1 );
+            } else if (distance < 1100) {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '8';
+                write(from_VL53L0X, buff, 1 );
+            } else {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '9';
+                write(from_VL53L0X, buff, 1 );
+            }
+        }
     }
     printf("\n\n") ;
     sensor->closeVL53L0X();
-}
+}            } else if (distance < 600) {
+                printf("\nDistance: %5d mm ",distance);
+                buff[0] = '4';
+                write(from_VL53L0X, buff, 1 );
