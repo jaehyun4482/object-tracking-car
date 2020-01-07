@@ -217,6 +217,21 @@ void *detect_in_thread(void *ptr) {
 			write(fd_from_yolo, buff_a, 1);
 			printf("%c\n", buff_a[0]);
 		}
+		else if (buff_b[0] == '3') {
+			buff_a[0] = 'x';
+			write(fd_from_yolo, buff_a, 1);
+			printf("%c\n", buff_a[0]);
+		}
+		else if (buff_b[0] == '4') {
+			buff_a[0] = 'x';
+			write(fd_from_yolo, buff_a, 1);
+			printf("%c\n", buff_a[0]);
+		}
+		else if (buff_b[0] == '5') {
+			buff_a[0] = 'x';
+			write(fd_from_yolo, buff_a, 1);
+			printf("%c\n", buff_a[0]);
+		}
 	}
 	//!SECTION code is added <--
 
