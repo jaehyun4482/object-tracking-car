@@ -173,23 +173,26 @@ void *detect_in_thread(void *ptr) {
 			case '0':
 			case '1':
 			case '2':
+			case '3':
 				buff_a[0] = 's';
 				write(fd_from_yolo, buff_a, 1);
 				printf("%c\n", buff_a[0]);
 				break;
-			case '3':
 			case '4':
+			case '5':
+			case '6':
 				buff_a[0] = 'x';
 				write(fd_from_yolo, buff_a, 1);
 				printf("%c\n", buff_a[0]);
 				break;
-			case '5':
+			case '7':
+			case '8':
 				buff_a[0] = 'w';
 				buff_a[1] = '2';
 				write(fd_from_yolo, buff_a, 1);
 				printf("%s\n", buff_a);
 				break;
-			case '6':
+			case '9':
 				buff_a[0] = 'w';
 				buff_a[1] = '3';
 				write(fd_from_yolo, buff_a, 1);
