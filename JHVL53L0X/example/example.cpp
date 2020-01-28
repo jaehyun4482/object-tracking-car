@@ -113,41 +113,37 @@ int main() {
                 printf("\nDistance: %5d mm ",distance);
                 buff[0] = '0';
                 write(from_VL53L0X, buff, 1 );
-            } else if (distance < 150) {
+            } else if (distance > 150 && distance <= 300) {
                 printf("\nDistance: %5d mm ",distance);
                 buff[0] = '1';
                 write(from_VL53L0X, buff, 1 );
-            } else if (distance < 300) {
+            } else if (distance > 300 && distance <= 450) {
                 printf("\nDistance: %5d mm ",distance);
                 buff[0] = '2';
                 write(from_VL53L0X, buff, 1 );
-            } else if (distance < 450) {
+            } else if (distance > 450 && distance <= 600) {
                 printf("\nDistance: %5d mm ",distance);
                 buff[0] = '3';
                 write(from_VL53L0X, buff, 1 );
-            } else if (distance < 600) {
+            } else if (distance > 600 && distance <= 750) {
                 printf("\nDistance: %5d mm ",distance);
                 buff[0] = '4';
                 write(from_VL53L0X, buff, 1 );
-            } else if (distance < 750) {
+            } else if (distance > 750 && distance <= 850) {
                 printf("\nDistance: %5d mm ",distance);
                 buff[0] = '5';
                 write(from_VL53L0X, buff, 1 );
-            } else if (distance < 900) {
+            } else if (distance > 850 && distance <= 1000) {
                 printf("\nDistance: %5d mm ",distance);
                 buff[0] = '6';
                 write(from_VL53L0X, buff, 1 );
-            } else if (distance < 1000) {
+            } else if (distance > 1000 && distance <= 1100) {
                 printf("\nDistance: %5d mm ",distance);
                 buff[0] = '7';
                 write(from_VL53L0X, buff, 1 );
-            } else if (distance < 1100) {
-                printf("\nDistance: %5d mm ",distance);
-                buff[0] = '8';
-                write(from_VL53L0X, buff, 1 );
             } else {
                 printf("\nDistance: %5d mm ",distance);
-                buff[0] = '9';
+                buff[0] = '8';
                 write(from_VL53L0X, buff, 1 );
             }
         }

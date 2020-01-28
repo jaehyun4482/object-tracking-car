@@ -171,31 +171,51 @@ void *detect_in_thread(void *ptr) {
 			write(fd_from_yolo, buff_a, 1);
 			switch (buff_b[0]) {
 			case '0':
+				buff_a[0] = 's';
+				write(fd_from_yolo, buff_a, 1);
+				printf("%c\n", buff_a[0]);
+				break;			
 			case '1':
+				buff_a[0] = 's';
+				write(fd_from_yolo, buff_a, 1);
+				printf("%c\n", buff_a[0]);
+				break;			
 			case '2':
+				buff_a[0] = 's';
+				write(fd_from_yolo, buff_a, 1);
+				printf("%c\n", buff_a[0]);
+				break;			
 			case '3':
 				buff_a[0] = 's';
 				write(fd_from_yolo, buff_a, 1);
 				printf("%c\n", buff_a[0]);
 				break;
 			case '4':
-			case '5':
-			case '6':
 				buff_a[0] = 'x';
 				write(fd_from_yolo, buff_a, 1);
 				printf("%c\n", buff_a[0]);
 				break;
-			case '7':
-			case '8':
-				buff_a[0] = 'w';
-				buff_a[1] = '2';
+			case '5':
+				buff_a[0] = 'x';
 				write(fd_from_yolo, buff_a, 1);
+				printf("%c\n", buff_a[0]);
+				break;
+			case '6':
+				buff_a[0] = 'w';
+				buff_a[1] = '1';
+				write(fd_from_yolo, buff_a, 2);
 				printf("%s\n", buff_a);
 				break;
-			case '9':
+			case '7':
+				buff_a[0] = 'w';
+				buff_a[1] = '2';
+				write(fd_from_yolo, buff_a, 2);
+				printf("%s\n", buff_a);
+				break;
+			case '8':
 				buff_a[0] = 'w';
 				buff_a[1] = '3';
-				write(fd_from_yolo, buff_a, 1);
+				write(fd_from_yolo, buff_a, 2);
 				printf("%s\n", buff_a);
 				break;
 			default:
